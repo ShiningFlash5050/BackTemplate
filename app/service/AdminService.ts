@@ -15,5 +15,12 @@ class AdminService {
             offset: (page - 1) * limit // 计算偏移量，用于分页
         })
     }
+    getAdminByName(name: string) {
+        return Admin.findOne({
+            where: {
+                name: name
+            }
+        })
+    }
 }
 export default new AdminService
