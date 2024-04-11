@@ -18,12 +18,26 @@ class AdminService {
     getAdminByName(name: string) {
         return Admin.findOne({
             where: {
-                name: name
+                name
             }
         })
     }
-    addAdmin(admin:any){
+    addAdmin(admin: any) {
         return Admin.create(admin)
+    }
+    updateAdmin(admin: any,id: number, ) {
+        return Admin.update(admin, {
+            where: {
+                id
+            }
+        })
+    }
+    deleteAdmin(id: number) {
+        return Admin.destroy({
+            where: {
+                id
+            }
+        })
     }
 }
 export default new AdminService

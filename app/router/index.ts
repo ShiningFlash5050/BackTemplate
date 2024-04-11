@@ -9,5 +9,7 @@ router.post('/login',LoginController.index)
 router.get('/admin/list',AdminController.getAdminList)
 router.post('/upload',UploadController.upload)
 router.post('/addAdmin',AdminController.addAdmin)
+router.post('/editAdmin/:id',AdminController.updateAdmin)
+router.delete('/deleteAdmin/:id',AdminController.deleteAdmin)
 router.use(AuthMiddleware)
 export default router;
