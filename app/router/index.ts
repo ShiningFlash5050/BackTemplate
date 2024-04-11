@@ -9,7 +9,6 @@ const router = new koaRouter({prefix:'/admin'});
 router.post('/login',LoginController.index)
 router.get('/',indexController.index)
 router.get('/admin/list',AdminController.getAdminList)
-router.post('/upload',UploadController.index)
-router.post('/upload1',UploadController.upload)
+router.post('/upload',UploadController.upload)
 router.use(AuthMiddleware)
 export default router;
