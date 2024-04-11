@@ -22,5 +22,8 @@ class AdminService {
             }
         })
     }
+    addAdmin(admin:any){
+        return Admin.create(admin)
+    }
 }
 export default new AdminService

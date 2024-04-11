@@ -3,6 +3,10 @@ import { URLSearchParams } from "url";
 import AdminService from "../service/AdminService";
 import paginate from "../../utils/paginate";
 import response from "../../utils/response";
+import { Rules } from "async-validator";
+import validate from "../../utils/validate";
+import { error } from "console";
+import { createHash } from "crypto";
 /**
  * 管理员控制器类
  */
@@ -28,6 +32,34 @@ class AdminController {
         const { rows, count } = await AdminService.getAdminListByPage(page, limit)
          // 构建并返回响应
         response.success(ctx, paginate(rows, page, count, limit))
+    }
+
+    async addAdmin(ctx: Context) {
+        // 获取请求体中的管理员信息
+        const rules:Rules = {
+            name: [{ type: 'string', required: true, message: '管理员名称不能为空' }],
+            password: [{ type: 'string', required: true, message: '管理员密码不能为空' },{type:'string' ,min:8,message:'密码长度不可小于8位'}],
+        }
+        interface IAdmin{
+            id:number,
+            name: string,
+            password: string
+        }
+        const {data,error} = await validate<IAdmin>(ctx, rules)
+        if(error !== null){
+            return response.error(ctx,error)
+        }
+        const admin = await AdminService.getAdminByName(data.name)
+        
+        if(admin !== null){
+            return response.error(ctx,'管理员已存在')
+        }
+        data.password = createHash('sha256').update(data.password).digest('hex')
+        const row =  await AdminService.addAdmin(data)
+        if(row.id > 0){
+            return response.success(ctx)
+        }
+        return response.error(ctx,'添加失败')
     }
 }
 

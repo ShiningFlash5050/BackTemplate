@@ -5,10 +5,6 @@ import { Column, Model, Table } from "sequelize-typescript";
     @Column
     name!: string
     @Column
-    email!: string
-    @Column
-    mobile!: string
-    @Column
     password!: string
 }
 export default Admin
